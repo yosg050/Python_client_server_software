@@ -1,4 +1,3 @@
-
 class Customer:
     def __init__(self, first, last, id, phone, debt, data):
         self._first = first
@@ -23,15 +22,15 @@ class Customer:
     @property
     def last(self):
         return self._last
-    
+
     @property
     def data(self):
         return self._data
-    
+
     @property
     def phone(self):
         return self._phone
-    
+
     def add_debt(self, debt, new_data, phone_comparison):
         if type(debt) is not int:
             print("Error: debt is not int!")
@@ -47,7 +46,3 @@ class Customer:
     def __str__(self):
         nams = str(self._first) + " " + str(self._last)
         return f"name: {nams:<15} id: {self._id:<15} phone: {self._phone:<14} debt: {self._debt:<5} data: {self._data}"
-    
-
-
-        

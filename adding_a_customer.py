@@ -1,71 +1,63 @@
-from customer import Customer
 from syntax_check import Tests
-from copy import deepcopy
 
-def add_id():
-    new_id = input("Enter an ID number: ")
-    if Tests.check_id(new_id):
-        return new_id
-    print("Invalid ID")
-    return add_id()
-    
 
-def add_name(fir_las):
-    name = input(f"Enter a {fir_las} name: ")
-    name = Tests.check_names(name)
-    if name:
-        return name
-    print("Invalid name")
-    return add_name(fir_las)    
+def new_customer(customers, new_customer):
+    good_customer = True
+    new_customer = new_customer[4:]
+    values_list = new_customer.split(", ") 
 
-def first_and_last(id, customers):
-    first = None
-    last = None
+    new_customer_dic = {}
+    for val in values_list:
+        key, value = val.split("=")
+        new_customer_dic[key] = value
+
+    new_id = Tests.check_id(new_customer_dic["id"])
+    if not new_id:
+        good_customer = False
+        new_id = f"Invalid ID: {new_customer_dic["id"]}"
+    exists = False
     if len(customers) > 0:
         for customer in customers:
             if customer.id == id:
-                first = deepcopy(customer._first)
-                last = deepcopy(customer._last)
-                print(first,last)
-    if first is None:
-        first = add_name("first")
-    if last is None:
-        last = add_name("last")
-    return first, last
+                exists = True
+                if new_customer_dic["first name"] != customer._first:
+                    good_customer = False
+                    new_first = f"Error, the ID is already associated with: {customer._first}"
+                if new_customer_dic["second name"] != customer._last:
+                    good_customer = False
+                    new_last =  f"Error, the ID is already associated with: {customer._last}"
+    if not exists:
+        new_first = Tests.check_names(new_customer_dic["first name"])
+        if not new_first:
+            good_customer = False
+            new_first = f"Invalid first name: {new_customer_dic["first name"]}"
+        new_last = Tests.check_names(new_customer_dic["second name"])
+        if not new_last:
+            good_customer = False
+            new_last = f"Invalid last name: {new_customer_dic["first name"]}"
 
-def add_phone():
-    new_phone = input("Enter a phone number: ")
-    if Tests.check_phone(new_phone):
-        return new_phone
-    print("Invalid phone number")
-    return add_phone()
+    new_phone = Tests.check_phone(new_customer_dic["phone"])
+    if not new_phone:
+        good_customer = False
+        new_phone = f"Invalid phone number: {new_customer_dic["phone"]}"
 
-def add_debt():
-    new_debt = input("Enter a debt amount: ")
-    if Tests.check_debt(new_debt):
-        return new_debt
-    print("Incorrect debt amount")
-    return add_debt()
+    new_debt = Tests.check_debt(new_customer_dic["dept"])
+    if not new_debt:
+        good_customer = False
+        new_debt = f"Incorrect debt amount{new_customer_dic["dept"]}"
 
-def add_data():
-    new_data = input("Enter a date: ")
-    Tests.check_data(new_data)
-    if new_data:
-        return new_data
-    print("Invalid date")
-    return add_data()
- 
+    new_data = Tests.check_data(new_customer_dic["date"])
+    if not new_data:
+        good_customer = False
+        new_data = f"Invalid date{new_customer_dic["date"]}"
+    else:
+        new_data = new_customer_dic["date"]
 
-def new_customer(customers):
-        id = add_id()
-        first, last = first_and_last(id, customers)
-        phone = add_phone()
-        debt = add_debt()
-        data = add_data()
-        # customer =  Customer(first, last, id, phone, debt, data)
-        customer = [first, last, id, phone, debt, data]
-        return customer
+
+    # print(f"{new_id}\n{new_first}\n{new_last}\n{new_phone}\n{new_debt}\n{new_data}")
+
+    return  new_first, new_last, new_id, new_phone, new_debt, new_data, good_customer
 
 c = []
 if __name__ == "__main__":
-    new_customer(c)
+    new_customer(c, "set first name=Moshe, second name=Berdichevsky, id=302916440, phone=0544123456, date=3/4/2022, dept=-200")
