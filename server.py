@@ -121,9 +121,8 @@ def quit_server(server_socket, all_clients):
 server_quit = False
 
 def handie_client(client_sock, all_clients, customers):
-    options_message = """To print the customers according to debt,
-          To add a customer (set...)
-          To delete according to parameters (select...) or exit"""
+    options_message = (
+        """To print the customers according to debt,\nTo add a customer (set...)\nTo delete according to parameters (select...) or exit""")
     client_sock.sendall(options_message.encode())
     while True:
         try:
