@@ -1,92 +1,197 @@
 from datetime import datetime
 
-# def equal_to(x, y):
-#     return x == y
+print_list = []
 
-# def not_equal_to(x, y):
-#     return x != y
+category_dic = {
+    "first name": "first name",
+    "second name": "second name",
+    "id": "id",
+    "phone": "phone",
+    "debt": "debt",
+    "date": "date",
+}
 
-# def greater_than(x, y):
-#     return x > y
-
-# def less_than(x, y):
-#     return x < y
-
-# def select_customers(customers, request):
-#     query_characters = " >,<,=,!="
-#     category = None
-#     given = None
-#     request = request[7:]
-#     for i in range(len(request)):
-#         if request[i] in query_characters:
-#             category = request[:i]
-#             print(category)
-#             query_character = request[1 + i]
-#             print(query_character)
-#             given = float(request[2 + i:])
-#             print(given)
-#             break
-
-#     category_dict = {"first_name": lambda customer: customer.first, "last_name": lambda customer: customer.last, "id": lambda customer: customer.id, "phone": lambda customer: customer.phone, "data": lambda customer: customer.data, "dept": lambda customer: customer.dept}
-#     comparison = {"=": equal_to, "!=": not_equal_to, ">": greater_than, "<": less_than}
-
-#     if category in category_dict and query_character in comparison:
-#         test_func = comparison[query_character]
-#         suitable_customers = [customer for customer in customers if test_func(category_dict[category](customer), given)]
-#         return suitable_customers
-#     else:
-#         return []
-    
-
-# c = []
-# if __name__ == "__main__":
-#     select_customers(c,"select debt < 20.5")
-
-
-def equal_to(customer1, customer2):
-    if customer1 == customer2:
-        return True
-    return False
-
-def not_worth(customer1, customer2):
-    if customer1 != customer2:
-        return True
-    return False
-
-def bigger_than(customer1, customer2):
-    if customer1 != customer2:
-        return True
-    return False
-
-def smaller_than(customer1, customer2):
-    if customer1 != customer2:
-        return True
-    return False
 
 def select_customers(customers, request):
-    query_characters = " >,<,=,=!" 
+    request = request[7:]
+    query_characters = ">,<,=,=!"
+    query_character = None
     category = None
     given = None
-    request = request[7:]
     for i in range(len(request)):
         if request[i] in query_characters:
-            category = request[:i]
-            query_characters = request[1 + i]
-            given = request[2 + i:]
+            category = (request[:i]).strip()
+            print(category)
+            query_character = (request[i]).strip()
+            print(query_character)
+            given = (request[1 + i :]).strip()
+            print(given)
             break
 
-    category_dic = {"first name": customers.first, "second name": customers.last, "id": customers.id, "phone": customers.phone, "data": customers.data, "dept": customers.dept}
-    comparison = {"=": equal_to(), "!=":not_worth(), ">":bigger_than(), "<": smaller_than()}
-    test = comparison[query_characters]()
-    suitable_customers = []
-    for customer in customers:
-        test(customer, request)
-        if test:
-            suitable_customers.append(customer)
+    if query_character:
+        if category == "date":
+            try:
+                given = datetime.strptime(given.strip(), "%d/%m/%Y").date()
+                print(given)
+            except ValueError:
+                return False
 
-    return select_customers
+            if query_character == ">":
+                for i in customers:
+                    if given > i.date:
+                        print_list.append(i)
+
+            if query_character == "<":
+                for i in customers:
+                    if given < i.date:
+                        print_list.append(i)
+
+            if query_character == "=":
+                for i in customers:
+                    if given == i.date:
+                        print_list.append(i)
+
+            if query_character == "=!":
+                for i in customers:
+                    if given != i.date:
+                        print_list.append(i)
 
 
-c = []
+        if category == "debt":
+            given = float(given)
+
+            if query_character == ">":
+                for i in customers:
+                    if given > i.debt:
+                        print_list.append(i)
+
+            if query_character == "<":
+                for i in customers:
+                    print(i.date)
+                    if given < i.debt:
+                        print_list.append(i)
+
+            if query_character == "=":
+                for i in customers:
+                    if given == i.debt:
+                        print_list.append(i)
+
+            if query_character == "=!":
+                for i in customers:
+                    if given != i.debt:
+                        print_list.append(i)
+
+
+        if category == "first name":
+
+            if query_character == ">":
+                for i in customers:
+                    if given > i.first:
+                        print_list.append(i)
+
+            if query_character == "<":
+                for i in customers:
+                    print(i.date)
+                    if given < i.first:
+                        print_list.append(i)
+
+            if query_character == "=":
+                for i in customers:
+                    if given == i.first:
+                        print_list.append(i)
+
+            if query_character == "=!":
+                for i in customers:
+                    if given != i.first:
+                        print_list.append(i)
+
+
+        if category == "second name":
+
+            if query_character == ">":
+                for i in customers:
+                    if given > i.last:
+                        print_list.append(i)
+
+            if query_character == "<":
+                for i in customers:
+                    print(i.date)
+                    if given < i.last:
+                        print_list.append(i)
+
+            if query_character == "=":
+                for i in customers:
+                    if given == i.last:
+                        print_list.append(i)
+
+            if query_character == "=!":
+                for i in customers:
+                    if given != i.last:
+                        print_list.append(i)
+
+
+        if category == "phone":
+
+            if query_character == ">":
+                for i in customers:
+                    if given > i.phone:
+                        print_list.append(i)
+
+            if query_character == "<":
+                for i in customers:
+                    print(i.date)
+                    if given < i.phone:
+                        print_list.append(i)
+
+            if query_character == "=":
+                for i in customers:
+                    if given == i.phone:
+                        print_list.append(i)
+
+            if query_character == "=!":
+                for i in customers:
+                    if given != i.phone:
+                        print_list.append(i)
+
+
+            if category == "id":
+
+                if query_character == ">":
+                    for i in customers:
+                        if given > i.id:
+                            print_list.append(i)
+
+                if query_character == "<":
+                    for i in customers:
+                        print(i.date)
+                        if given < i.id:
+                            print_list.append(i)
+
+                if query_character == "=":
+                    for i in customers:
+                        if given == i.id:
+                            print_list.append(i)
+
+                if query_character == "=!":
+                    for i in customers:
+                        if given != i.id:
+                            print_list.append(i)
+        print(print_list)
+
+    # return select_customers
+
+
+c = [
+    ["yosef", "levi", "302916440", "0548443278", "123", "05/01/2017"],
+    ["Yosef", "Gelle", "302916440", "0444444444", "-1999", "15/11/1999"],
+    ["'Yosef'", "Fwef", "302916440", "0333333333", "-1", "01/01/2000"],
+    ["Yosef", "Geller", "302916440", "0444444444", "-100", "11/11/2011"],
+    ["Esti", "Geller", "203225750", "0503233222", "-222", "19/09/2021"],
+    ["Svi", "Geller", "224249268", "0545454543", "-424", "11/01/2019"],
+]
+
 if __name__ == "__main__":
-    select_customers(c,"select debt < 20.5")
+    x = input()
+    y = input()
+    z = input()
+    select_customers(c, f"select {x} {y} {z}")

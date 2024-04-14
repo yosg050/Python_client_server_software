@@ -46,17 +46,14 @@ def new_customer(customers, new_customer):
         good_customer = False
         new_debt = f"Incorrect debt amount{new_customer_dic["dept"]}"
 
-    new_data = Tests.check_data(new_customer_dic["date"])
-    if not new_data:
+    new_date = Tests.check_date(new_customer_dic["date"])
+    if not new_date:
         good_customer = False
-        new_data = f"Invalid date{new_customer_dic["date"]}"
+        new_date = f"Invalid date{new_customer_dic["date"]}"
     else:
-        new_data = new_customer_dic["date"]
+        new_date = new_customer_dic["date"]
 
-
-    # print(f"{new_id}\n{new_first}\n{new_last}\n{new_phone}\n{new_debt}\n{new_data}")
-
-    return  new_first, new_last, new_id, new_phone, new_debt, new_data, good_customer
+    return  new_first, new_last, new_id, new_phone, new_debt, new_date, good_customer
 
 c = []
 if __name__ == "__main__":

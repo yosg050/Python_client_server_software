@@ -1,5 +1,3 @@
-import sys #אולי למחוק
-import os #אולי למחוק
 from datetime import datetime
 
 class Tests:
@@ -42,9 +40,9 @@ class Tests:
             return False
         return debt
 
-    def check_data(data):
+    def check_date(date):
         try:
-            data = datetime.strptime(data.strip(), "%d/%m/%Y").date()
+            date = datetime.strptime(date.strip(), "%d/%m/%Y").date()
         except ValueError:
             return False
-        return data
+        return date

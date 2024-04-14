@@ -21,7 +21,7 @@ def run_in_cmd(customers, op):
 
 
 def run_in_vs(customers, op):
-    csv_file = "db.csv"
+    csv_file = "db1.csv"
     if op == "r":
         program_run(csv_file, customers)
     elif op == "a":
@@ -34,10 +34,12 @@ def run_options(customers, op):
     else:
         run_in_vs(customers, op)
 
+
 def write_run(csv_file, add_customer):
     with open(csv_file, "a", encoding="utf-8-sig", newline="") as fd:
         writer = csv.writer(fd)
         writer.writerow(add_customer)
+
 
 def program_run(csv_file, customers):
     if not os.path.exists(csv_file):
@@ -67,11 +69,11 @@ def program_run(csv_file, customers):
             debt = Tests.check_debt(fields[4])
             if not debt:
                 fields[4] = f"Error invalid:{fields[4]}"
-            data = Tests.check_data(fields[5])
-            if not data:
+            date = Tests.check_date(fields[5])
+            if not date:
                 fields[5] = f"Error invalid: {fields[5]}"
             else:
-                fields[5] = data
+                fields[5] = date
 
             for customer in customers:
                 if customer.id == id:
@@ -91,22 +93,23 @@ def print_client(list_cus):
 
 
 def add_new_customer(customers, new):
-    first, last, id, phone, debt, data, good_custom = adding_a_customer.new_customer(
+    first, last, id, phone, debt, date, good_custom = adding_a_customer.new_customer(
         customers, new
     )
     if good_custom == False:
-        new_custom = ",".join(map(str, (first, last, id, phone, debt, data)))
+        new_custom = ",".join(map(str, (first, last, id, phone, debt, date)))
         return new_custom
-    # print(first, last, id, phone, debt, data)
-    run_options((first, last, id, phone, debt, data), "a")
-    customer = Customer(first, last, id, phone, debt, data)
+    # print(first, last, id, phone, debt, date)
+    run_options((first, last, id, phone, debt, date), "a")
+    customer = Customer(first, last, id, phone, debt, date)
     customers.append(customer)
     return "Adding a customer has been successfully completed"
 
 
-def client_requests(data):
-    data.split()
-    print(data)
+def client_requests(date):
+    date.split()
+    print(date)
+
 
 def quit_server(server_socket, all_clients):
     while True:
@@ -120,31 +123,31 @@ def quit_server(server_socket, all_clients):
 
 server_quit = False
 
+
 def handie_client(client_sock, all_clients, customers):
-    options_message = (
-        """To print the customers according to debt,\nTo add a customer (set...)\nTo delete according to parameters (select...) or exit""")
+    options_message = """To print the customers according to debt,\nTo add a customer (set...)\nTo delete according to parameters (select...) or exit"""
     client_sock.sendall(options_message.encode())
     while True:
         try:
-            data = client_sock.recv(2048)
+            date = client_sock.recv(2048)
         except OSError:
             if not server_quit:
                 print(f"Client:{client_address} left")
                 all_clients.remove(client_sock)
             break
-        if "quit" in data.decode():
+        if "quit" in date.decode():
             continue
-        if "print" in data.decode():
-            data = print_client(customers)
-            client_sock.sendall(data.encode())
+        if "print" in date.decode():
+            date = print_client(customers)
+            client_sock.sendall(date.encode())
         else:
-            data = data.decode()
-            if data[:3] == "set":
-                add_new = add_new_customer(customers, data)
+            date = date.decode()
+            if date[:3] == "set":
+                add_new = add_new_customer(customers, date)
                 client_sock.sendall(add_new.encode())
-            if data[:6] == "select":
-                filtering_sorting.select_customers(customers, data)
-                
+            if date[:6] == "select":
+                filtering_sorting.select_customers(customers, date)
+
             else:
                 answer = "Error! input answer will not install"
                 client_sock.sendall(answer.encode())
@@ -154,7 +157,7 @@ customers_list = []
 run_options(customers_list, "r")
 
 server = ("127.0.0.1", 12345)
-print(f"Statring server chat on {server}")
+print(f"Starting server chat on {server}")
 all_clients = []
 server_socket = socket(AF_INET, SOCK_STREAM)
 server_socket.bind(server)
