@@ -95,29 +95,21 @@ def select_customers(customers, request):
 
             if query_character == ">":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given > i.first:
                         print_list.append(i)
 
             if query_character == "<":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given < i.first:
                         print_list.append(i)
 
             if query_character == "=":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given == i.first:
                         print_list.append(i)
 
             if query_character == "=!":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given != i.first:
                         print_list.append(i)
 
@@ -125,29 +117,21 @@ def select_customers(customers, request):
 
             if query_character == ">":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given > i.last:
                         print_list.append(i)
 
             if query_character == "<":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given < i.last:
                         print_list.append(i)
 
             if query_character == "=":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given == i.last:
                         print_list.append(i)
 
             if query_character == "=!":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given != i.last:
                         print_list.append(i)
 
@@ -155,29 +139,21 @@ def select_customers(customers, request):
 
             if query_character == ">":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given > i.phone:
                         print_list.append(i)
 
             if query_character == "<":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given < i.phone:
                         print_list.append(i)
 
             if query_character == "=":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given == i.phone:
                         print_list.append(i)
 
             if query_character == "=!":
                 for i in customers:
-                    if type(i.date) == str:
-                        continue
                     if given != i.phone:
                         print_list.append(i)
 
@@ -185,29 +161,21 @@ def select_customers(customers, request):
 
                 if query_character == ">":
                     for i in customers:
-                        if type(i.date) == str:
-                            continue
                         if given > i.id:
                             print_list.append(i)
 
                 if query_character == "<":
                     for i in customers:
-                        if type(i.date) == str:
-                            continue
                         if given < i.id:
                             print_list.append(i)
 
                 if query_character == "=":
                     for i in customers:
-                        if type(i.date) == str:
-                            continue
                         if given == i.id:
                             print_list.append(i)
 
                 if query_character == "=!":
                     for i in customers:
-                        if type(i.date) == str:
-                            continue
                         if given != i.id:
                             print_list.append(i)
     return print_list
