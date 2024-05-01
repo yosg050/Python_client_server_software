@@ -4,10 +4,10 @@ from socket import socket, AF_INET, SOCK_STREAM
 
 def message(client_socket):
     while True:
-        date = client_socket.recv(2048)
-        if "quit" in date.decode():
+        data = client_socket.recv(2048)
+        if "quit" in data.decode():
             break
-        print(date.decode())
+        print(data.decode())
         msg = input("->")
         try:
             client_socket.sendall(msg.encode())

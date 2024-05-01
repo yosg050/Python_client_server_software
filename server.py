@@ -21,7 +21,7 @@ def run_in_cmd(customers, op):
 
 
 def run_in_vs(customers, op):
-    csv_file = "db1.csv"
+    csv_file = "db.csv"
     if op == "r":
         program_run(csv_file, customers)
     elif op == "a":
@@ -99,7 +99,6 @@ def add_new_customer(customers, new):
     if good_custom == False:
         new_custom = ",".join(map(str, (first, last, id, phone, debt, date)))
         return new_custom
-    # print(first, last, id, phone, debt, date)
     run_options((first, last, id, phone, debt, date), "a")
     customer = Customer(first, last, id, phone, debt, date)
     customers.append(customer)
@@ -129,24 +128,28 @@ def handie_client(client_sock, all_clients, customers):
     client_sock.sendall(options_message.encode())
     while True:
         try:
-            date = client_sock.recv(2048)
+            data = client_sock.recv(2048)
         except OSError:
             if not server_quit:
                 print(f"Client:{client_address} left")
                 all_clients.remove(client_sock)
             break
-        if "quit" in date.decode():
+        if "quit" in data.decode():
             continue
-        if "print" in date.decode():
-            date = print_client(customers)
-            client_sock.sendall(date.encode())
+        if "print" in data.decode():
+            data = print_client(customers)
+            client_sock.sendall(data.encode())
         else:
-            date = date.decode()
-            if date[:3] == "set":
-                add_new = add_new_customer(customers, date)
+            data = data.decode()
+            if data[:3] == "set":
+                add_new = add_new_customer(customers, data)
                 client_sock.sendall(add_new.encode())
-            if date[:6] == "select":
-                filtering_sorting.select_customers(customers, date)
+            if data[:6] == "select":
+                get_data = filtering_sorting.select_customers(customers, data)
+                result = print_client(get_data)
+                if not data:
+                    result = "No data matching the request"
+                client_sock.sendall(result.encode())
 
             else:
                 answer = "Error! input answer will not install"
@@ -180,6 +183,3 @@ print("Server leaving...")
 server_quit = True
 for sock in all_clients:
     sock.close()
-
-
-# set first name=Moshe, second name=Berdichevsky, id=302916440, phone=0544123456, date=3/4/2022, dept=200
